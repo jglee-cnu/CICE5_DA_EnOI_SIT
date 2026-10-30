@@ -82,12 +82,6 @@
 
 ! Each Proccessors
 
-          radius = 800
-          call pre_local_analysis(nrens,nrobs,obs,work1,work2, &
-               D, S, radius, nobs_array_blk, nx_block, ny_block, X4_blk)
-
-          iglobal_ndim = (nx_block)*ny_block
-
           ! mean innovation 
           meanD=0.
           do jj=1,nrens
@@ -96,6 +90,13 @@
           enddo
           enddo
           meanD(:)=meanD(:)/float(nrens)
+
+          radius = 800
+          call pre_local_analysis(nrens,nrobs,obs,work1,work2, &
+               meanD, S, radius, nobs_array_blk, nx_block, ny_block, X4_blk)
+
+          iglobal_ndim = (nx_block)*ny_block
+
 
           call local_analysis(nobs_array_blk(:,:,1), A%var, nrens, nx_block, ny_block, X4_blk(:,:,1,:,:), cvar)
 
